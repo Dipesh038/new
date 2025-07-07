@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Play, Sparkles, Zap, Film, Tv, TrendingUp, Star, Search } from 'lucide-react';
 import { VideoPlayer } from '@/components/video-player';
@@ -28,6 +28,7 @@ export default function Home() {
   const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
   const [searchResults, setSearchResults] = useState<Movie[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const mainRef = useRef<HTMLElement>(null);
 
   const handleSearch = async (query: string) => {
     if (!query.trim()) {
@@ -80,6 +81,13 @@ export default function Home() {
       setIsSearching(false);
     }
   };
+
+  // Scroll to results when searchResults are set
+  useEffect(() => {
+    if (searchResults.length > 0 && mainRef.current) {
+      mainRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [searchResults]);
 
   useEffect(() => {
     async function fetchAndFilterMovies() {
@@ -325,7 +333,7 @@ export default function Home() {
         </div>
       </section>
 
-      <main id="content" className="px-4 md:px-8 pb-20 -mt-32 md:-mt-48 relative z-20 pt-20">
+      <main ref={mainRef} id="content" className="px-4 md:px-8 pb-20 -mt-32 md:-mt-48 relative z-20 pt-20">
         {/* Content Sections */}
         {isSearching ? (
           <div className="text-center text-cinema-white py-20">Searching...</div>
