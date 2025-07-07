@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Cinema Theme Variables */
+    --cinema-black: #0a0a0a;
+    --cinema-charcoal: #1a1a1a;
+    --cinema-dark: #2a2a2a;
+    --cinema-coral: #ff6b6b;
+    --cinema-teal: #4ecdc4;
+    --cinema-white: #ffffff;
+    --cinema-gray: #666666;
+    
+    /* Original shadcn variables for compatibility */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    @apply scroll-smooth;
+  }
+  
+  body {
+    @apply bg-cinema-black text-cinema-white font-sans antialiased;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+    min-height: 100vh;
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-cinema-charcoal;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-cinema-coral rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-cinema-teal;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply backdrop-blur-md bg-white/10 border border-white/20 rounded-xl;
+  }
+  
+  .glass-card-strong {
+    @apply backdrop-blur-lg bg-white/20 border border-white/30 rounded-xl;
+  }
+  
+  .text-gradient {
+    @apply bg-gradient-to-r from-cinema-coral to-cinema-teal bg-clip-text text-transparent;
+  }
+  
+  .btn-primary {
+    @apply bg-gradient-to-r from-cinema-coral to-cinema-teal text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cinema-coral/25;
+  }
+  
+  .btn-secondary {
+    @apply glass-card text-cinema-white font-semibold py-3 px-6 transition-all duration-300 hover:bg-white/20 hover:scale-105 flex items-center justify-center;
+  }
+  
+  .video-card {
+    @apply glass-card p-4 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-cinema-coral/20 cursor-pointer;
+  }
+  
+  .floating-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+  }
+  
+  .particle {
+    position: absolute;
+    background: radial-gradient(circle, rgba(255, 107, 107, 0.8) 0%, rgba(78, 205, 196, 0.4) 100%);
+    border-radius: 50%;
+    animation: float 8s infinite ease-in-out;
+  }
+  
+  .search-glow {
+    @apply focus:ring-2 focus:ring-cinema-coral/50 focus:border-cinema-coral transition-all duration-300;
+  }
+}
+
+@layer utilities {
+  .animate-delay-1000 {
+    animation-delay: 1s;
+  }
+  
+  .animate-delay-2000 {
+    animation-delay: 2s;
+  }
+  
+  .animate-delay-3000 {
+    animation-delay: 3s;
+  }
+}
+
+/* Hide Next.js badge and error messages */
+body > nextjs-portal {
+  display: none;
+}
+
+/* Custom animations for particles */
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
+    opacity: 0.7;
+  }
+  33% { 
+    transform: translateY(-30px) rotate(120deg); 
+    opacity: 1;
+  }
+  66% { 
+    transform: translateY(-15px) rotate(240deg); 
+    opacity: 0.8;
+  }
+}
