@@ -18,15 +18,23 @@ export function SearchBar({ onPerformSearch }: SearchBarProps) {
   return (
     <form onSubmit={handleSearch} className="w-full max-w-xl mx-auto">
       <div className="relative">
+        <label htmlFor="search-input" className="sr-only">
+          Search for movies and TV series
+        </label>
         <input
+          id="search-input"
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search for movies, series..."
           className="w-full pl-12 pr-4 py-3 text-lg bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-cinema-white placeholder-cinema-gray focus:outline-none focus:ring-2 focus:ring-cinema-coral search-glow"
+          aria-describedby="search-description"
         />
+        <div id="search-description" className="sr-only">
+          Enter keywords to search through our collection of movies and TV series
+        </div>
         <div className="absolute inset-y-0 left-0 flex items-center pl-4">
-          <Search className="w-6 h-6 text-cinema-gray" />
+          <Search className="w-6 h-6 text-cinema-gray" aria-hidden="true" />
         </div>
       </div>
     </form>

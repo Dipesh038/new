@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://moviestream.com/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Block access to API routes for SEO crawlers
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+# Allow access to important pages
+Allow: /movies
+Allow: /series
+Allow: /4k
+Allow: /top-rated
+Allow: /trending

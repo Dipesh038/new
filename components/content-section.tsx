@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { VideoCard } from '@/components/video-card';
+import { LazyVideoCard } from '@/components/lazy-video-card';
 import { Movie } from '@/types/movie';
 import { Film, Tv, Sparkles, TrendingUp, Star } from 'lucide-react';
 
@@ -41,7 +41,7 @@ export function ContentSection({ title, movies, onMovieSelect, icon, description
   };
 
   return (
-    <section id={`section-${title.toLowerCase().replace(/\s+/g, '-')}`} className="py-16 mb-12">
+    <section id={`section-${title.toLowerCase().replace(/\s+/g, '-')}`} className="py-16 mb-12" aria-labelledby={`heading-${title.toLowerCase().replace(/\s+/g, '-')}`}>
       <div className="max-w-7xl mx-auto px-4">
         {/* Section Header */}
         <motion.div
@@ -53,7 +53,7 @@ export function ContentSection({ title, movies, onMovieSelect, icon, description
         >
           <div className="inline-flex items-center space-x-3 mb-4">
             {icon}
-            <h2 className="text-4xl md:text-5xl font-bold text-gradient">
+            <h2 id={`heading-${title.toLowerCase().replace(/\s+/g, '-')}`} className="text-4xl md:text-5xl font-bold text-gradient">
               {title}
             </h2>
           </div>
@@ -72,8 +72,9 @@ export function ContentSection({ title, movies, onMovieSelect, icon, description
 
         {/* Loading Spinner */}
         {isLoading && (
-          <div className="flex justify-center items-center py-20">
+          <div className="flex justify-center items-center py-20" role="status" aria-live="polite">
             <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-cinema-coral"></div>
+            <span className="sr-only">Loading content...</span>
           </div>
         )}
 
@@ -105,7 +106,7 @@ export function ContentSection({ title, movies, onMovieSelect, icon, description
             {/* Example: Place a button/icon below the label, with spacing */}
             {title.toLowerCase().includes('search result') && (
               <div className="flex justify-center mb-8 mt-2">
-                <button className="btn-secondary flex items-center gap-2">
+                <button className="btn-secondary flex items-center gap-2" aria-label="Refine search results">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" /></svg>
                   Refine Search
                 </button>
@@ -113,7 +114,7 @@ export function ContentSection({ title, movies, onMovieSelect, icon, description
             )}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8 md:gap-10 mb-8">
               {paginatedMovies.map((movie, index) => (
-                <VideoCard
+                <LazyVideoCard
                   key={movie.id}
                   movie={movie}
                   onPlay={onMovieSelect}
@@ -131,12 +132,13 @@ export function ContentSection({ title, movies, onMovieSelect, icon, description
                 viewport={{ once: true }}
                 className="mt-12 flex justify-center"
               >
-                <div className="flex items-center space-x-2">
+                <nav className="flex items-center space-x-2" aria-label="Pagination navigation">
                   {/* Previous button */}
                   <button
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
                     className="glass-card px-4 py-2 text-cinema-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/20 transition-all duration-300"
+                    aria-label="Go to previous page"
                   >
                     Previous
                   </button>
@@ -158,6 +160,8 @@ export function ContentSection({ title, movies, onMovieSelect, icon, description
                       <button
                         key={pageNum}
                         onClick={() => handlePageChange(pageNum)}
+                        aria-label={`Go to page ${pageNum}`}
+                        aria-current={currentPage === pageNum ? 'page' : undefined}
                         className={`px-4 py-2 rounded-lg transition-all duration-300 ${
                           currentPage === pageNum
                             ? 'bg-cinema-coral text-white'
@@ -174,10 +178,11 @@ export function ContentSection({ title, movies, onMovieSelect, icon, description
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
                     className="glass-card px-4 py-2 text-cinema-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/20 transition-all duration-300"
+                    aria-label="Go to next page"
                   >
                     Next
                   </button>
-                </div>
+                </nav>
               </motion.div>
             )}
           </>
@@ -187,12 +192,12 @@ export function ContentSection({ title, movies, onMovieSelect, icon, description
             animate={{ opacity: 1, y: 0 }}
             className="text-center py-20"
           >
-            <div className="glass-card-strong p-12 max-w-md mx-auto">
-              <Film className="w-16 h-16 text-cinema-coral mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-cinema-white mb-2">
+            <div className="glass-card-strong p-12 max-w-md mx-auto" role="status">
+              <Film className="w-16 h-16 text-cinema-coral mx-auto mb-4" aria-hidden="true" />
+              <h3 className="text-xl font-semibold text-cinema-white mb-2" id="no-results-heading">
                 No Results Found
               </h3>
-              <p className="text-cinema-gray">
+              <p className="text-cinema-gray" aria-describedby="no-results-heading">
                 Try adjusting your search terms or browse our collection.
               </p>
             </div>

@@ -107,6 +107,15 @@ export const VideoCard = memo(function VideoCard({ movie, onPlay, index }: Video
       }}
       className="video-card group cursor-pointer"
       onClick={() => onPlay(movie)}
+      role="button"
+      tabIndex={0}
+      aria-label={`Play ${movie.title} (${movie.year})`}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onPlay(movie);
+        }
+      }}
     >
       <div className="relative overflow-hidden rounded-lg mb-4">
         {posterUrl ? (
@@ -115,9 +124,11 @@ export const VideoCard = memo(function VideoCard({ movie, onPlay, index }: Video
             alt={movie.title}
             className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
             onError={fetchPosterFromAPI}
+            loading="lazy"
+            decoding="async"
           />
         ) : (
-          <div className="w-full h-64 bg-cinema-dark flex items-center justify-center text-cinema-gray">
+          <div className="w-full h-64 bg-cinema-dark flex items-center justify-center text-cinema-gray" role="img" aria-label="No poster available">
             No Image
           </div>
         )}
@@ -128,6 +139,7 @@ export const VideoCard = memo(function VideoCard({ movie, onPlay, index }: Video
             whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.9 }}
             className="bg-cinema-coral rounded-full p-4 shadow-lg"
+            aria-hidden="true"
           >
             <Play className="w-8 h-8 text-white ml-1" fill="currentColor" />
           </motion.div>
@@ -135,7 +147,7 @@ export const VideoCard = memo(function VideoCard({ movie, onPlay, index }: Video
         
         {/* Rating badge */}
         <div className="absolute top-3 right-3 bg-black/70 backdrop-blur-sm rounded-full px-2 py-1 flex items-center space-x-1">
-          <Star className="w-3 h-3 text-yellow-400" fill="currentColor" />
+          <Star className="w-3 h-3 text-yellow-400" fill="currentColor" aria-hidden="true" />
           <span className="text-xs font-medium text-white">{movie.rating}</span>
         </div>
         
@@ -148,19 +160,19 @@ export const VideoCard = memo(function VideoCard({ movie, onPlay, index }: Video
       </div>
       
       <div className="space-y-2">
-        <h3 className="font-bold text-lg text-cinema-white group-hover:text-cinema-coral transition-colors duration-300 line-clamp-1">
+        <h3 className="font-bold text-lg text-cinema-white group-hover:text-cinema-coral transition-colors duration-300 line-clamp-1" id={`movie-title-${movie.id}`}>
           {movie.title}
         </h3>
         
         <div className="flex items-center space-x-4 text-sm text-cinema-gray">
           <div className="flex items-center space-x-1">
-            <Calendar className="w-4 h-4" />
+            <Calendar className="w-4 h-4" aria-hidden="true" />
             <span>{movie.year}</span>
           </div>
           
           {movie.type === 'movie' && movie.duration && (
             <div className="flex items-center space-x-1">
-              <Clock className="w-4 h-4" />
+              <Clock className="w-4 h-4" aria-hidden="true" />
               <span>{movie.duration}</span>
             </div>
           )}

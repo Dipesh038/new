@@ -246,7 +246,7 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 py-20">
+      <section className="relative min-h-screen flex items-center justify-center px-4 py-20" role="banner" aria-label="Hero section">
         <FloatingParticles />
         <div className="max-w-6xl mx-auto text-center">
           {/* Logo/Brand */}
@@ -257,13 +257,13 @@ export default function Home() {
             className="mb-8"
           >
             <div className="inline-flex items-center space-x-3 glass-card-strong px-6 py-3 rounded-full">
-              <Film className="w-8 h-8 text-cinema-coral" />
+              <Film className="w-8 h-8 text-cinema-coral" aria-hidden="true" />
               <span className="text-2xl font-bold text-gradient">Movie Stream</span>
             </div>
           </motion.div>
 
           {/* Search Bar */}
-          <div className="mb-12">
+          <div className="mb-12" role="search" aria-label="Movie and TV show search">
             <SearchBar onPerformSearch={handleSearch} />
           </div>
 
@@ -274,8 +274,10 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-5xl md:text-7xl font-bold text-cinema-white mb-6 leading-tight"
           >
-            Stream Everything
-            <span className="block text-gradient">Beautifully</span>
+            <h1>
+              Stream Everything
+              <span className="block text-gradient">Beautifully</span>
+            </h1>
           </motion.h1>
 
           {/* Hero Subtitle */}
@@ -285,9 +287,10 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-xl md:text-2xl text-cinema-gray mb-8 max-w-3xl mx-auto leading-relaxed"
           >
-            Experience the future of streaming with our premium platform. 
+            <p>Experience the future of streaming with our premium platform. 
             Access over <span className="text-cinema-coral font-bold">{movieDatabase.length.toLocaleString()}+</span> movies and TV shows.
-          </motion.p>
+            </p>
+          </motion.div>
 
           {/* Stats */}
           <motion.div
@@ -296,15 +299,15 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="flex flex-wrap justify-center gap-8 mb-12"
           >
-            <div className="glass-card px-6 py-4 text-center">
+            <div className="glass-card px-6 py-4 text-center" role="group" aria-label="Movie statistics">
               <div className="text-2xl font-bold text-cinema-coral">{getMovies().length.toLocaleString()}+</div>
               <div className="text-cinema-gray">Movies</div>
             </div>
-            <div className="glass-card px-6 py-4 text-center">
+            <div className="glass-card px-6 py-4 text-center" role="group" aria-label="TV series statistics">
               <div className="text-2xl font-bold text-cinema-teal">{getSeries().length.toLocaleString()}+</div>
               <div className="text-cinema-gray">TV Series</div>
             </div>
-            <div className="glass-card px-6 py-4 text-center">
+            <div className="glass-card px-6 py-4 text-center" role="group" aria-label="4K content statistics">
               <div className="text-2xl font-bold text-cinema-coral">{get4KContent().length.toLocaleString()}+</div>
               <div className="text-cinema-gray">4K Content</div>
             </div>
@@ -318,29 +321,29 @@ export default function Home() {
             className="flex flex-wrap justify-center gap-6 mb-12"
           >
             <div className="flex items-center space-x-2 glass-card px-4 py-2">
-              <Sparkles className="w-5 h-5 text-cinema-teal" />
+              <Sparkles className="w-5 h-5 text-cinema-teal" aria-hidden="true" />
               <span className="text-cinema-white">4K Quality</span>
             </div>
             <div className="flex items-center space-x-2 glass-card px-4 py-2">
-              <Zap className="w-5 h-5 text-cinema-coral" />
+              <Zap className="w-5 h-5 text-cinema-coral" aria-hidden="true" />
               <span className="text-cinema-white">Instant Streaming</span>
             </div>
             <div className="flex items-center space-x-2 glass-card px-4 py-2">
-              <Play className="w-5 h-5 text-cinema-teal" />
+              <Play className="w-5 h-5 text-cinema-teal" aria-hidden="true" />
               <span className="text-cinema-white">No Ads</span>
             </div>
           </motion.div>
         </div>
       </section>
 
-      <main ref={mainRef} id="content" className="px-4 md:px-8 pb-20 -mt-32 md:-mt-48 relative z-20 pt-20">
+      <main ref={mainRef} id="content" className="px-4 md:px-8 pb-20 -mt-32 md:-mt-48 relative z-20 pt-20" role="main">
         {/* Content Sections */}
         {isSearching ? (
-          <div className="text-center text-cinema-white py-20">Searching...</div>
+          <div className="text-center text-cinema-white py-20" role="status" aria-live="polite">Searching...</div>
         ) : searchResults.length > 0 ? (
           <ContentSection
             title="Search Results"
-            icon={<Search className="w-8 h-8 text-cinema-teal" />}
+            icon={<Search className="w-8 h-8 text-cinema-teal" aria-hidden="true" />}
             description={`Found ${searchResults.length} results`}
             movies={searchResults}
             onMovieSelect={handleMovieSelect}
@@ -349,7 +352,7 @@ export default function Home() {
         ) : (
           <>
             <NavigationTabs onTabChange={handleTabChange} activeTab={activeTab} />
-            <div className="mt-8">
+            <section className="mt-8" aria-label={`${sectionConfig.title} content`}>
               <ContentSection
                 title={sectionConfig.title}
                 icon={sectionConfig.icon}
@@ -358,7 +361,7 @@ export default function Home() {
                 onMovieSelect={handleMovieSelect}
                 isLoading={loadingMovies}
               />
-            </div>
+            </section>
           </>
         )}
       </main>
@@ -369,7 +372,7 @@ export default function Home() {
       )}
 
       {/* Footer */}
-      <footer className="py-12 px-4 border-t border-cinema-dark text-center">
+      <footer className="py-12 px-4 border-t border-cinema-dark text-center" role="contentinfo">
         <p className="text-cinema-gray mb-2">
           &copy; {new Date().getFullYear()} Dipesh. All Rights Reserved.
         </p>

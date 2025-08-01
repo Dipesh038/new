@@ -120,6 +120,9 @@ export function VideoPlayer({ movie, onClose }: VideoPlayerProps) {
             onClose();
           }
         }}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="video-player-title"
       >
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
@@ -137,6 +140,7 @@ export function VideoPlayer({ movie, onClose }: VideoPlayerProps) {
             variant="outline"
             size="icon"
             className="absolute top-3 right-3 z-10 bg-black/50 border-white/20 text-white hover:bg-white/10"
+            aria-label="Close video player"
           >
             <X className="w-5 h-5" />
           </Button>
@@ -170,6 +174,7 @@ export function VideoPlayer({ movie, onClose }: VideoPlayerProps) {
                   className={`w-full h-full ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500 rounded-lg`}
                   allowFullScreen
                   allow="autoplay; encrypted-media; picture-in-picture"
+                  title={`${movie.title} video player`}
                   onLoad={() => {
                     console.log('Video iframe loaded successfully');
                     setIsLoading(false);
@@ -186,21 +191,21 @@ export function VideoPlayer({ movie, onClose }: VideoPlayerProps) {
             <div className="lg:col-span-1 flex flex-col pt-4 lg:pt-0 px-1 sm:px-4">
             {/* Movie info header */}
               <div className="mb-4">
-                <h2 className="text-2xl md:text-3xl font-bold text-cinema-white mb-2">
+                <h2 id="video-player-title" className="text-2xl md:text-3xl font-bold text-cinema-white mb-2">
                   {movie.title}
                 </h2>
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-cinema-gray">
                   <div className="flex items-center space-x-1">
-                    <Star className="w-4 h-4 text-yellow-400" fill="currentColor" />
+                    <Star className="w-4 h-4 text-yellow-400" fill="currentColor" aria-hidden="true" />
                     <span>{movie.rating}</span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <Calendar className="w-4 h-4" />
+                    <Calendar className="w-4 h-4" aria-hidden="true" />
                     <span>{movie.year}</span>
                   </div>
                   {movie.type === 'movie' && movie.duration && (
                     <div className="flex items-center space-x-1">
-                      <Clock className="w-4 h-4" />
+                      <Clock className="w-4 h-4" aria-hidden="true" />
                       <span>{movie.duration}</span>
                     </div>
                   )}
@@ -297,7 +302,7 @@ export function VideoPlayer({ movie, onClose }: VideoPlayerProps) {
                   }}
                   className="btn-secondary w-full"
                 >
-                  <ExternalLink className="w-4 h-4 mr-2" />
+                  <ExternalLink className="w-4 h-4 mr-2" aria-hidden="true" />
                   Open in New Tab
                 </Button>
               </div>
